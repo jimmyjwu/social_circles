@@ -9,9 +9,11 @@ urlpatterns = patterns('',
     # url(r'^$', 'social_circles.views.home', name='home'),
     # url(r'^social_circles/', include('social_circles.foo.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
+    # Maps '/admin/doc' to admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # Maps '/admin/' to admin panel
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^', include('friends.urls')),
 )
