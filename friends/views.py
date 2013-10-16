@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 import facebook
 
 def index(request):
@@ -9,6 +10,23 @@ def index(request):
 	profile = graph.get_object("me")
 	friends_data = graph.get_connections("me", "friends")['data']
 
-	# Extract names from list of raw friend data
-	friends = [friend_data['name'] for friend_data in friends_data]
-	return HttpResponse(friends)
+	# Assemble a list of friend dictionaries with names and IDs
+	friends = []
+	for friend_data in friends_data:
+		friends += [
+			{
+				'name': friend_data['name'],
+				'ID': friend_data['id'],
+			}
+		]
+
+	# WARNING: The code below runs extremely slowly due to large number of requests over network.
+	"""
+	# Add, to each friend dictionary, a list of mutual friends with the user
+	for friend in friends:
+		print(counter)
+		friend['mutual_friends'] = graph.get_connections(friend['ID'], "mutualfriends")['data']
+	"""
+
+	# Render page with friend information
+	return render(request, 'friends/index.html', {'friends': friends})
