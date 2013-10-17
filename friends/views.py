@@ -4,6 +4,7 @@ from django.shortcuts import render
 # Python and system-wide modules
 import time
 import facebook
+import networkx
 
 # Local modules
 from utilities import *
@@ -14,18 +15,11 @@ access_token = DEVELOPER_ACCESS_TOKEN
 
 
 def index(request):
-	graph = facebook.GraphAPI(access_token=access_token, timeout=REQUEST_TIMEOUT_IN_SECONDS)
-	profile = graph.get_object('me')
+	facebook_graph = facebook.GraphAPI(access_token=access_token, timeout=REQUEST_TIMEOUT_IN_SECONDS)
+	profile = facebook_graph.get_object('me')
 
-	start_time = time.time()
-	friends = graph.fql(FRIENDS_ID_AND_NAME_QUERY)
-	end_time = time.time()
-	print_execution_time('FQL query for friends', start_time, end_time)
-
-	start_time = time.time()
-	friendships_between_friends = graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_QUERY)
-	end_time = time.time()
-	print_execution_time('FQL query for friendships between friends', start_time, end_time)
+	friends = facebook_graph.fql(FRIENDS_ID_AND_NAME_QUERY)
+	friendships_between_friends = facebook_graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_QUERY)
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'number_of_connections_between_friends': len(friendships_between_friends)})
