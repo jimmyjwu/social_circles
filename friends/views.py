@@ -6,6 +6,7 @@ import time
 import facebook
 
 # Local modules
+from utilities import *
 from constants import *
 
 
@@ -17,15 +18,15 @@ def index(request):
 	graph = facebook.GraphAPI(access_token, timeout=REQUEST_TIMEOUT_IN_SECONDS)
 	profile = graph.get_object('me')
 
-	start = time.time()
+	start_time = time.time()
 	friends_data = graph.fql(FRIENDS_ID_AND_NAME_QUERY)
-	end = time.time()
-	print('FQL query for friends took ' + str('%.1f' % (end - start)) + ' seconds.')
+	end_time = time.time()
+	print_execution_time('FQL query for friends', start_time, end_time)
 
-	start = time.time()
+	start_time = time.time()
 	friendships_between_friends = graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_QUERY)
-	end = time.time()
-	print('FQL query for connections between friends took ' + str('%.1f' % (end - start)) + ' seconds.')
+	end_time = time.time()
+	print_execution_time('FQL query for friendships between friends', start_time, end_time)
 
 	# Assemble a list of friend dictionaries with names and IDs
 	friends = []
