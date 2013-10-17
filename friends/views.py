@@ -19,7 +19,7 @@ def index(request):
 	profile = graph.get_object('me')
 
 	start_time = time.time()
-	friends_data = graph.fql(FRIENDS_ID_AND_NAME_QUERY)
+	friends = graph.fql(FRIENDS_ID_AND_NAME_QUERY)
 	end_time = time.time()
 	print_execution_time('FQL query for friends', start_time, end_time)
 
@@ -27,16 +27,6 @@ def index(request):
 	friendships_between_friends = graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_QUERY)
 	end_time = time.time()
 	print_execution_time('FQL query for friendships between friends', start_time, end_time)
-
-	# Assemble a list of friend dictionaries with names and IDs
-	friends = []
-	for friend_data in friends_data:
-		friends += [
-			{
-				'name': friend_data['name'],
-				'ID': friend_data['uid'],
-			}
-		]
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'number_of_connections_between_friends': len(friendships_between_friends)})
