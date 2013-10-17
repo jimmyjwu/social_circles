@@ -18,19 +18,14 @@ def index(request):
 	profile = graph.get_object('me')
 
 	start = time.time()
-	friends_data = graph.get_connections('me', 'friends')['data']
-	end = time.time()
-	print('Graph API request for friends took ' + str('%.2f' % (end - start)) + ' seconds.')
-
-	start = time.time()
 	friends_data = graph.fql(FRIENDS_ID_AND_NAME_QUERY)
 	end = time.time()
-	print('FQL query for friends took ' + str('%.2f' % (end - start)) + ' seconds.')
+	print('FQL query for friends took ' + str('%.1f' % (end - start)) + ' seconds.')
 
 	start = time.time()
 	friendships_between_friends = graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_QUERY)
 	end = time.time()
-	print('FQL query for connections between friends took ' + str('%.2f' % (end - start)) + ' seconds.')
+	print('FQL query for connections between friends took ' + str('%.1f' % (end - start)) + ' seconds.')
 
 	# Assemble a list of friend dictionaries with names and IDs
 	friends = []
