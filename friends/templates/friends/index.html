@@ -1,15 +1,12 @@
+<p>
+	There are {{ number_of_connections_between_friends }} connections between your friends.
+</p>
+
 {% for friend in friends %}
 	<p>
 		{{ friend.name }}
 		<br>
 		{{ friend.ID }}
 		<br>
-		<ul>
-			{% for mutual_friend in friend.mutual_friends %}
-				<li>
-					{{ mutual_friend }}
-				</li>
-			{% endfor %}
-		</ul>
 	</p>
 {% endfor %}
