@@ -2,8 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import facebook
 import time
+from constants import *
 
-access_token = 'CAACEdEose0cBAFfoesEXdOxaZALNKzH96C2cleKFZClyPaxhdF7ZB7lfiieik48SuRSSxbodFvIkePgaMrR2Y7S4KePt3juHfrxe24d7mm49uzJJ4KZBcahywEIlHAriwOct8OqgZAicoWWQCOLoIZC3cZA1XeQ32UWeVjUa0fUXsVYbnqyqfGtPMb3aV4eXlUZD'
+access_token = 'CAACEdEose0cBAMQWBwstSMZC0zZAVFgHiG2UcpCZBczCkSflP7GnaMHKoG0HP87PPI4FwnQOoiatZC23PgNaC9iQKmecUCnHekmPAzEFhBaK1J8OJxPtcz36s2ckb0xoWvhGUttGEoueaO9QnfZCeAXvNHYSHLoOpzxPCbKmltlJQSoPOqAE0oQkrbtbZC4DYZD'
 
 
 def index(request):
@@ -18,12 +19,12 @@ def index(request):
 	print('Graph API request for friends took ' + str('%.2f' % (end - start)) + ' seconds.')
 
 	start = time.time()
-	friends_data = graph.fql('SELECT uid, name FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())')
+	friends_data = graph.fql(FRIENDS_ID_AND_NAME_QUERY)
 	end = time.time()
 	print('FQL query for friends took ' + str('%.2f' % (end - start)) + ' seconds.')
 
 	start = time.time()
-	connections_between_friends = graph.fql('SELECT uid1, uid2 FROM friend WHERE uid1 IN (SELECT uid2 FROM friend WHERE uid1=me()) AND uid2 IN (SELECT uid2 FROM friend WHERE uid1=me())')
+	friendships_between_friends = graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_QUERY)
 	end = time.time()
 	print('FQL query for connections between friends took ' + str('%.2f' % (end - start)) + ' seconds.')
 
@@ -46,7 +47,7 @@ def index(request):
 	"""
 
 	# Render page with friend information
-	return render(request, 'friends/index.html', {'friends': friends, 'number_of_connections_between_friends': len(connections_between_friends)})
+	return render(request, 'friends/index.html', {'friends': friends, 'number_of_connections_between_friends': len(friendships_between_friends)})
 
 
 
