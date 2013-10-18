@@ -5,6 +5,8 @@ from django.shortcuts import render
 import time
 import facebook
 import networkx
+import networkx.algorithms as algorithms
+import networkx.algorithms.approximation as approximation
 
 # Local modules
 from utilities import *
@@ -30,6 +32,10 @@ def index(request):
 	for friendship in friendships_between_friends:
 		friends_graph.add_edge(friendship['uid1'], friendship['uid2'])
 
+	print "me['id'] is a " + str(type(me['id']))
+	print "friend['uid'] is a " + str(type(friends[0]['uid']))
+	print "friendship['uid1'] is a " + str(type(friendships_between_friends[0]['uid1']))
+	print "friendship['uid2'] is a " + str(type(friendships_between_friends[0]['uid2']))
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'number_of_friendships': len(friends_graph.edges())})
