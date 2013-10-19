@@ -50,24 +50,19 @@ def index(request):
 	end = time.time()
 	print_execution_time('Constructing graph of local region', start, end)
 
-	"""
-	# DEBUG
+	# Print data types returned by Facebook
 	print "me['id'] is a " + str(type(me['id']))
 	print "friendship['uid1'] is a " + str(type(friendships_between_friends[0]['uid1']))
 	print "friendship['uid2'] is a " + str(type(friendships_between_friends[0]['uid2']))
-	"""
 
-	"""
-	# DEBUG
-	# Result: found that 10,197 edges are indeed unique; if (u,v) exists, (v,u) doesn't.
+	# Test if edges are unique: if (u,v) exists, (v,u) doesn't
 	edges = friends_graph.edges()
 	edge_set = set(edges)
+	number_of_duplicate_edges = 0
 	for u, v in edges:
 		if (v, u) in edge_set:
-			print('DUPLICATE DETECTED')
-	print(edge_set)
-	"""
-
+			number_of_duplicate_edges += 1
+	print(str(number_of_duplicate_edges) + ' DUPLICATE EDGES DETECTED.' if number_of_duplicate_edges > 0 else 'NO DUPLICATE EDGES DETECTED.')
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'number_of_friendships': len(friends_graph.edges())})
