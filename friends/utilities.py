@@ -2,6 +2,12 @@
 utilities.py contains utility functions used throughout the 'friends' app.
 """
 
+def parse_multiquery_results(multiquery_results):
+	"""
+	Given the results of an FQL multiquery request, returns a list of all results.
+	"""
+	return [result for query_results in multiquery_results for result in query_results['fql_result_set']]
+
 def chunks(full_list, chunk_size):
 	"""
 	Given a list, returns successive sublists of specified size.

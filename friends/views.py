@@ -34,7 +34,7 @@ def index(request):
 	friends_sublists = chunks(friend_ID_strings, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_REQUEST)
 	friendships_multiquery = {'query_' + str(sublist_index): FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_sublists[sublist_index]) for sublist_index in range(len(friends_sublists))}
 	friendship_multiquery_results = facebook_graph.fql(friendships_multiquery)['data']
-	friendships_between_friends = [friendship for query_results in friendship_multiquery_results for friendship in query_results['fql_result_set']]
+	friendships_between_friends = parse_multiquery_results(friendship_multiquery_results)
 	end = time.time()
 	print_execution_time('getting friendships between friends', start, end)
 
