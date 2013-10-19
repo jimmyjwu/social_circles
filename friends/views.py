@@ -35,15 +35,13 @@ def index(request):
 	friendship_multiquery_results = facebook_graph.fql(friendships_multiquery)['data']
 	friendships_between_friends = [friendship for query_results in friendship_multiquery_results for friendship in query_results['fql_result_set']]
 	end = time.time()
-	print_execution_time('Getting friendships between friends using FQL multiquery', start, end)
+	print_execution_time('Getting friendships between friends', start, end)
 
 	# Construct graph of local region
 	start = time.time()
 	friends_graph = networkx.Graph()
-	for friend_ID in friend_IDs:
-		friends_graph.add_edge(me['id'], friend_ID)
-	for friendship in friendships_between_friends:
-		friends_graph.add_edge(friendship['uid1'], friendship['uid2'])
+	[friends_graph.add_edge(me['id'], friend_ID) for friend_ID in friend_IDs]
+	[friends_graph.add_edge(friendship['uid1'], friendship['uid2']) for friendship in friendships_between_friends]
 	end = time.time()
 	print_execution_time('Constructing graph of local region', start, end)
 
