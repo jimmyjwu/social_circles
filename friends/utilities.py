@@ -2,22 +2,19 @@
 utilities.py contains utility functions used throughout the 'friends' app.
 """
 
+def parse_multiquery_results(multiquery_results):
+	"""
+	Given the results of an FQL multiquery, returns a dictionary mapping query
+	names to a list of results for that query.
+	"""
+	return {query_results['name']: query_results['fql_result_set'] for query_results in multiquery_results['data']}
+
 def parse_and_combine_multiquery_results(multiquery_results):
 	"""
-	Given the results of an FQL multiquery request, returns a list of all results
+	Given the results of an FQL multiquery, returns a combined list of all results
 	across all queries.
 	"""
 	return [result for query_results in multiquery_results['data'] for result in query_results['fql_result_set']]
-
-def parse_multiquery_results(multiquery_results):
-	"""
-	Given the results of an FQL multiquery request, returns a dictionary mapping
-	request names to a list of results for that query.
-	"""
-	results_dictionary = {}
-	for query_results in multiquery_results['data']:
-		results_dictionary[query_results['name']] = query_results['fql_result_set']
-	return results_dictionary
 
 def chunks(full_list, chunk_size):
 	"""
