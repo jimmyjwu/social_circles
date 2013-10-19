@@ -24,10 +24,11 @@ def index(request):
 	start = time.time()
 	me = facebook_graph.get('me')
 	friends = facebook_graph.fql(FRIENDS_ID_AND_NAME_QUERY)['data']
-	friend_IDs = [unicode(friend['uid']) for friend in friends]
+	friend_IDs = [str(friend['uid']) for friend in friends]
 	end = time.time()
 	print_execution_time('Getting user and friends', start, end)
 
+	"""
 	# Query, in chunks, for friendships among friends
 	# TO-DO: use FQL multi-query (switch to facepy library)
 	start = time.time()
@@ -39,6 +40,23 @@ def index(request):
 		print('Current friends sublist has ' + str(len(friendships_in_sublist)) + ' total mutual friends.')
 	end = time.time()
 	print_execution_time('Getting friendships between friends', start, end)
+	"""
+
+	# Use FQL multi-query to get friendships among friends
+	start = time.time()
+
+	friends_partition = chunks(friend_IDs, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_REQUEST)
+	multiquery = {}
+	for index in range(len(friends_partition)):
+		multiquery['query_' + str(index)] = FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_partition[index])
+	multiquery_results = facebook_graph.fql(multiquery)['data']
+
+	friendships_between_friends = []
+	for query_results in multiquery_results:
+		friendships_between_friends += query_results['fql_result_set']
+	
+	end = time.time()
+	print_execution_time('Getting friendships between friends using FQL multiquery', start, end)
 
 	# Construct graph of local region
 	start = time.time()
