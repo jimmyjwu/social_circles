@@ -9,8 +9,10 @@ def print_execution_time(operation, start_time, end_time):
 	print(operation + ' took ' + str('%.1f' % (end_time - start_time)) + ' seconds.')
 
 def chunks(full_list, chunk_size):
-    """
-    Generator function; yields successive sublists of specified size from a list.
-    """
-    for index in xrange(0, len(full_list), chunk_size):
-        yield full_list[index:index+chunk_size]
+	"""
+	Given a list, returns successive sublists of specified size.
+	"""
+	chunks = []
+	for index in xrange(0, len(full_list), chunk_size):
+		chunks += [full_list[index:index+chunk_size]]
+	return chunks

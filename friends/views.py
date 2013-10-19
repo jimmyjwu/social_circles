@@ -29,7 +29,7 @@ def index(request):
 	# TO-DO: determine experimentally what chunk size to use
 	# (find one such that the number of friendships (u,v) returned is safely fewer than 5,000)
 	# TO-DO: use FQL multi-query (switch to facepy library)
-	friends_partition = list(chunks(friend_IDs, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_REQUEST))
+	friends_partition = chunks(friend_IDs, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_REQUEST)
 	friendships_between_friends = []
 	for friends_sublist in friends_partition:
 		 friendships_in_sublist = facebook_graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_sublist))
