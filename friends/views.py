@@ -51,9 +51,9 @@ def index(request):
 	print_execution_time('Constructing graph of local region', start, end)
 
 	# Print data types returned by Facebook
-	print "me['id'] is a " + str(type(me['id']))
-	print "friendship['uid1'] is a " + str(type(friendships_between_friends[0]['uid1']))
-	print "friendship['uid2'] is a " + str(type(friendships_between_friends[0]['uid2']))
+	print_object_type("me['id']", me['id'])
+	print_object_type("friendships_between_friends[0]['uid1']", friendships_between_friends[0]['uid1'])
+	print_object_type("friendships_between_friends[0]['uid2']", friendships_between_friends[0]['uid2'])
 
 	# Test if edges are unique: if (u,v) exists, (v,u) doesn't
 	edges = friends_graph.edges()
