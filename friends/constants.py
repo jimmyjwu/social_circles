@@ -3,7 +3,6 @@ constants.py contains constant values used throughout the 'friends' app.
 """
 
 # Graph API Options
-REQUEST_TIMEOUT_IN_SECONDS = 15
 DEVELOPER_ACCESS_TOKEN = 'CAACEdEose0cBALNCbK6rfRNW5MRrLM9zrWMqu0FXT5HR7gZAZAcAGlOjhHR6xtpX4W7XOArFEjboVrSZAWs1Dibxt6WdO09SY1JetNF6lzgreggXrGHfLUnWHtoMtGLWXNxYJUyXstOBOxuWk1HiZAZA8GntfkF8mZBq3yOvZCu3JKZCfX5SOTggV3qZCXB9D9M4ZD'
 
 # FQL Queries
