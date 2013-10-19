@@ -21,9 +21,12 @@ def index(request):
 	facebook_graph = facebook.GraphAPI(access_token=access_token, timeout=REQUEST_TIMEOUT_IN_SECONDS)
 
 	# Query for user and friends
+	start = time.time()
 	me = facebook_graph.get_object('me')
 	friends = facebook_graph.fql(FRIENDS_ID_AND_NAME_QUERY)
 	friend_IDs = [unicode(friend['uid']) for friend in friends]
+	end = time.time()
+	print_execution_time('Getting user and friends', start, end)
 
 	# Query, in chunks, for friendships among friends
 	# TO-DO: determine experimentally what chunk size to use
@@ -39,11 +42,14 @@ def index(request):
 	print_execution_time('Getting friendships between friends', start, end)
 
 	# Construct graph of local region
+	start = time.time()
 	friends_graph = networkx.Graph()
 	for friend_ID in friend_IDs:
 		friends_graph.add_edge(me['id'], friend_ID)
 	for friendship in friendships_between_friends:
 		friends_graph.add_edge(friendship['uid1'], friendship['uid2'])
+	end = time.time()
+	print_execution_time('Constructing graph of local region', start, end)
 
 	"""
 	# DEBUG
