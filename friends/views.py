@@ -4,6 +4,7 @@ from django.shortcuts import render
 # Python and system-wide modules
 import time
 import facebook
+import facepy
 import networkx
 import networkx.algorithms as algorithms
 import networkx.algorithms.approximation as approximation
@@ -29,8 +30,6 @@ def index(request):
 	print_execution_time('Getting user and friends', start, end)
 
 	# Query, in chunks, for friendships among friends
-	# TO-DO: determine experimentally what chunk size to use
-	# (find one such that the number of friendships (u,v) returned is safely fewer than 5,000)
 	# TO-DO: use FQL multi-query (switch to facepy library)
 	start = time.time()
 	friends_partition = chunks(friend_IDs, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_REQUEST)
