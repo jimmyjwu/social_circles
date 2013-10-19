@@ -38,6 +38,7 @@ def index(request):
 	for friends_sublist in friends_partition:
 		friendships_in_sublist = facebook_graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_sublist))
 		friendships_between_friends += friendships_in_sublist
+		print('Current friends sublist has ' + str(len(friendships_in_sublist)) + ' total mutual friends.')
 	end = time.time()
 	print_execution_time('Getting friendships between friends', start, end)
 
