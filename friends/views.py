@@ -3,7 +3,6 @@ from django.shortcuts import render
 
 # Python and system-wide modules
 import time
-import facebook
 import facepy
 import networkx
 import networkx.algorithms as algorithms
@@ -19,12 +18,12 @@ access_token = DEVELOPER_ACCESS_TOKEN
 
 def index(request):
 	# Create Facebook Graph API object
-	facebook_graph = facebook.GraphAPI(access_token=access_token, timeout=REQUEST_TIMEOUT_IN_SECONDS)
+	facebook_graph = facepy.GraphAPI(oauth_token=access_token)
 
 	# Query for user and friends
 	start = time.time()
-	me = facebook_graph.get_object('me')
-	friends = facebook_graph.fql(FRIENDS_ID_AND_NAME_QUERY)
+	me = facebook_graph.get('me')
+	friends = facebook_graph.fql(FRIENDS_ID_AND_NAME_QUERY)['data']
 	friend_IDs = [unicode(friend['uid']) for friend in friends]
 	end = time.time()
 	print_execution_time('Getting user and friends', start, end)
@@ -35,7 +34,7 @@ def index(request):
 	friends_partition = chunks(friend_IDs, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_REQUEST)
 	friendships_between_friends = []
 	for friends_sublist in friends_partition:
-		friendships_in_sublist = facebook_graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_sublist))
+		friendships_in_sublist = facebook_graph.fql(FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_sublist))['data']
 		friendships_between_friends += friendships_in_sublist
 		print('Current friends sublist has ' + str(len(friendships_in_sublist)) + ' total mutual friends.')
 	end = time.time()
