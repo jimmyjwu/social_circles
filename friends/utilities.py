@@ -22,3 +22,18 @@ def print_object_type(variable_name, variable):
 	Outputs the object type (class) of a variable.
 	"""
 	print variable_name + ' is a ' + str(type(variable))
+
+def test_and_print_edge_uniqueness(graph):
+	"""
+	Given a graph, outputs the number of duplicate edges (u,v) and (u,v), if any.
+	"""
+	edges = graph.edges()
+	edge_set = set(edges)
+	number_of_duplicate_edges = 0
+	for u, v in edges:
+		if (v, u) in edge_set:
+			number_of_duplicate_edges += 1
+	print(str(number_of_duplicate_edges) + ' DUPLICATE EDGES DETECTED.' if number_of_duplicate_edges > 0 else 'NO DUPLICATE EDGES DETECTED.')
+
+
+
