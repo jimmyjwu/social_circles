@@ -1,9 +1,9 @@
 """
 constants.py contains constant values used throughout the 'friends' app.
 """
+from access_token import *
 
 # Graph API Options
-DEVELOPER_ACCESS_TOKEN = 'CAACEdEose0cBALixChwGYtX8V0IKG0sZCYCgzBZA5I8fve3eWyvR2p1CcgrXtqt0AcngjBHaZCpac1Wpv4fsii9r4JUZAIIl1r2MQBVlM6pcAMFnW5JwSy2XYqi7ZBg1wB4Hxd7SZBWQvJJ7LwEALRyMMmenOzytrGfqfeu8ZBQQ18sRZAb7aZCuHrtTDSHVNZBbgZD'
 
 # FQL Queries
 USER_ID_AND_NAME_QUERY = 'SELECT uid, name FROM user WHERE uid=me()'

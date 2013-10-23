@@ -2,3 +2,4 @@ venv
 *.pyc
 staticfiles
 *.db
+friends/access_token.py
