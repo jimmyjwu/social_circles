@@ -20,7 +20,7 @@ def chunks(full_list, chunk_size):
 	"""
 	Given a list, returns successive sublists of specified size.
 	"""
-	return [full_list[index:index+chunk_size] for index in xrange(0, len(full_list), chunk_size)]
+	return [full_list[index:index + chunk_size] for index in xrange(0, len(full_list), chunk_size)]
 
 def combine_sublists(sublists):
 	"""
