@@ -36,8 +36,9 @@ def index(request):
 	# Use FQL multi-query to get friendships among friends
 	start = time.time()
 	friend_UID_strings = [str(friend['uid']) for friend in friends]	# Friend UIDs must be strings (not unicode) to use in FQL multiqueries
-	friends_sublists = chunks(friend_UID_strings, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_QUERY)
-	friendships_multiquery = {'query_' + str(sublist_index): FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friends_sublists[sublist_index]) for sublist_index in range(len(friends_sublists))}
+	friend_chunks = chunks(friend_UID_strings, NUMBER_OF_FRIENDS_PER_FRIENDSHIP_QUERY)
+	print_friend_chunks_information(friend_chunks)
+	friendships_multiquery = {'query_' + str(sublist_index): FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friend_chunks[sublist_index]) for sublist_index in range(len(friend_chunks))}
 	friendships_multiquery_results = facebook_graph.fql(friendships_multiquery)
 	friendships_between_friends = parse_and_combine_multiquery_results(friendships_multiquery_results)
 	end = time.time()

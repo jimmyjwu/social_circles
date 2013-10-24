@@ -22,6 +22,12 @@ def chunks(full_list, chunk_size):
 	"""
 	return [full_list[index:index+chunk_size] for index in xrange(0, len(full_list), chunk_size)]
 
+def print_friend_chunks_information(friend_chunks):
+	"""
+	Outputs the number and size of given chunks/sublists of friends.
+	"""
+	print('[FRIEND CHUNKS] ' + str(len(friend_chunks)) + ' chunks of size ' + str(len(friend_chunks[0])))
+
 def print_execution_time(operation_name, start_time, end_time):
 	"""
 	Outputs the execution time (in seconds) of an operation to the console.
