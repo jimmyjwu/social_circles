@@ -41,6 +41,12 @@ def edge_count_in_complete_graph(node_count):
 	"""
 	return node_count * (node_count - 1) / 2
 
+def print_graph_density(node_count, edge_count):
+	"""
+	Outputs the density of a graph with the given node and edge counts.
+	"""
+	print('[GRAPH DENSITY] ' + str(edge_count) + ' out of ' + str(edge_count_in_complete_graph(node_count)) + ' edges exist (' + str('%.1f' % (100 * float(edge_count) / edge_count_in_complete_graph(node_count))) + '%)')
+
 def print_friend_chunks_information(friend_chunks):
 	"""
 	Outputs the number and size of given chunks/sublists of friends.
