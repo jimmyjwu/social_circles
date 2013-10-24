@@ -2,6 +2,7 @@
 utilities.py contains utility functions used throughout the 'friends' app.
 """
 from random import shuffle
+from itertools import chain
 
 def parse_multiquery_results(multiquery_results):
 	"""
@@ -28,7 +29,7 @@ def combine_sublists(sublists):
 	"""
 	Given a list of sublists, returns a list containing the items in all sublists (i.e. flattens the list).
 	"""
-	return [item for sublist in sublists for item in sublist]
+	return list(chain.from_iterable(sublists))
 
 def print_friend_chunks_information(friend_chunks):
 	"""
