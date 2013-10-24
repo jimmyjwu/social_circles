@@ -19,7 +19,7 @@ def parse_and_combine_multiquery_results(multiquery_results):
 	"""
 	return combine_sublists(parse_multiquery_results(multiquery_results).values())
 
-def shuffled_chunks(full_list, chunk_size):
+def random_chunks(full_list, chunk_size):
 	"""
 	Given a list, returns random disjoint sublists (chunks), each of specified size.
 	"""
