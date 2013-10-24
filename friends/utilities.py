@@ -35,6 +35,12 @@ def combine_sublists(sublists):
 	"""
 	return list(chain.from_iterable(sublists))
 
+def edge_count_in_complete_graph(node_count):
+	"""
+	Returns the number of edges in a complete graph on a given number of nodes.
+	"""
+	return node_count * (node_count - 1) / 2
+
 def print_friend_chunks_information(friend_chunks):
 	"""
 	Outputs the number and size of given chunks/sublists of friends.
