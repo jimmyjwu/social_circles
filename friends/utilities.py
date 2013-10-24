@@ -16,7 +16,11 @@ def parse_and_combine_multiquery_results(multiquery_results):
 	Given the results of an FQL multiquery, returns a combined list of all results
 	across all queries.
 	"""
-	return combine_sublists(parse_multiquery_results(multiquery_results).values())
+	# return combine_sublists(parse_multiquery_results(multiquery_results).values())
+	results = parse_multiquery_results(multiquery_results).values()
+	for partial_results in results:
+		print(str(len(partial_results)) + ' partial results')
+	return combine_sublists(results)
 
 def shuffled_chunks(full_list, chunk_size):
 	"""
