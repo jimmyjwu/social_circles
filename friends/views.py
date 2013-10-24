@@ -33,6 +33,16 @@ def index(request):
 	end = time.time()
 	print_execution_time('getting user and friends', start, end)
 
+	# User FQL to calculate graph density
+	start = time.time()
+	mutual_friend_counts_results = facebook_graph.fql(MUTUAL_FRIEND_COUNTS_QUERY)['data']
+	mutual_friend_counts = [result['mutual_friend_count'] for result in mutual_friend_counts_results]
+	friendships_count = reduce(lambda accumulated_count, current_count: accumulated_count + current_count, mutual_friend_counts) / 2
+	print(str(friendships_count) + ' friendships in local graph')
+	print('Graph density is ' + str(float(friendships_count) / float( len(friends) * (len(friends) - 1) / 2 )))
+	end = time.time()
+	print_execution_time('calculating graph density', start, end)
+
 	# Use FQL multi-query to get friendships among friends
 	start = time.time()
 	friend_UID_strings = [str(friend['uid']) for friend in friends]	# Friend UIDs must be strings (not unicode) to use in FQL multiqueries
