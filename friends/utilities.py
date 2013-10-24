@@ -9,18 +9,16 @@ def parse_multiquery_results(multiquery_results):
 	Given the results of an FQL multiquery, returns a dictionary mapping query
 	names to a list of results for that query.
 	"""
-	return {query_results['name']: query_results['fql_result_set'] for query_results in multiquery_results['data']}
+	parsed_results = {query_results['name']: query_results['fql_result_set'] for query_results in multiquery_results['data']}
+	print_multiquery_results_information(parsed_results)
+	return parsed_results
 
 def parse_and_combine_multiquery_results(multiquery_results):
 	"""
 	Given the results of an FQL multiquery, returns a combined list of all results
 	across all queries.
 	"""
-	# return combine_sublists(parse_multiquery_results(multiquery_results).values())
-	results = parse_multiquery_results(multiquery_results).values()
-	for partial_results in results:
-		print(str(len(partial_results)) + ' partial results')
-	return combine_sublists(results)
+	return combine_sublists(parse_multiquery_results(multiquery_results).values())
 
 def shuffled_chunks(full_list, chunk_size):
 	"""
@@ -46,6 +44,15 @@ def print_graph_density(node_count, edge_count):
 	Outputs the density of a graph with the given node and edge counts.
 	"""
 	print('[GRAPH DENSITY] ' + str(edge_count) + ' out of ' + str(edge_count_in_complete_graph(node_count)) + ' edges exist (' + str('%.1f' % (100 * float(edge_count) / edge_count_in_complete_graph(node_count))) + '%)')
+
+def print_multiquery_results_information(parsed_multiquery_results):
+	"""
+	Outputs the names of queries and the sizes of their results from
+	a dictionary of FQL multiquery results parsed by parse_multiquery_results().
+	"""
+	print('[MULTIQUERY RESULTS]')
+	for query_name, result in parsed_multiquery_results.iteritems():
+		print('\t' + query_name + ':\t' + str(len(result)) + ' results')
 
 def print_friend_chunks_information(friend_chunks):
 	"""
