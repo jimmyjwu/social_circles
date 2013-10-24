@@ -34,8 +34,7 @@ def index(request):
 	print_execution_time('getting user, friends, and mutual friend counts', start, end)
 
 	# Calculate graph density from mutual friend counts
-	mutual_friend_counts = [friend['mutual_friend_count'] for friend in friends]
-	friendships_count = sum(mutual_friend_counts) / 2
+	friendships_count = sum([friend['mutual_friend_count'] for friend in friends]) / 2
 	print_graph_density(len(friends), friendships_count)
 
 	# Use FQL multiquery to get friendships among friends
