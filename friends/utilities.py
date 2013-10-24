@@ -14,13 +14,19 @@ def parse_and_combine_multiquery_results(multiquery_results):
 	Given the results of an FQL multiquery, returns a combined list of all results
 	across all queries.
 	"""
-	return [result for query_results in multiquery_results['data'] for result in query_results['fql_result_set']]
+	return combine_sublists(parse_multiquery_results(multiquery_results).values())
 
 def chunks(full_list, chunk_size):
 	"""
 	Given a list, returns successive sublists of specified size.
 	"""
 	return [full_list[index:index+chunk_size] for index in xrange(0, len(full_list), chunk_size)]
+
+def combine_sublists(sublists):
+	"""
+	Given a list of sublists, returns a list containing the items in all sublists (i.e. flattens the list).
+	"""
+	return [item for sublist in sublists for item in sublist]
 
 def print_friend_chunks_information(friend_chunks):
 	"""
