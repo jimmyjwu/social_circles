@@ -10,7 +10,7 @@ SAFE_RESULTS_PER_QUERY = 3000
 
 # FQL Queries
 USER_ID_AND_NAME_QUERY = 'SELECT uid, name FROM user WHERE uid=me()'
-FRIENDS_ID_AND_NAME_QUERY = 'SELECT uid, name FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
+FRIENDS_ID_AND_NAME_QUERY = 'SELECT mutual_friend_count FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1=me())'
 
 MUTUAL_FRIEND_COUNTS_QUERY = 'SELECT mutual_friend_count, uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1=me())'
 FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY = lambda friend_IDs: 'SELECT uid1, uid2 FROM friend WHERE uid1 IN (' + ','.join(friend_IDs) + ') AND uid2 in (SELECT uid2 FROM friend WHERE uid1=me())'
