@@ -47,11 +47,11 @@ def index(request):
 	friend_UID_strings = [str(friend['uid']) for friend in friends]	# Friend UIDs must be strings (not unicode) to use in FQL multiqueries
 	friend_chunks = shuffled_chunks(friend_UID_strings, FRIEND_COUNT_PER_FRIENDSHIP_QUERY(len(friends)))
 	print_friend_chunks_information(friend_chunks)
-	friendships_multiquery = {'query_' + str(sublist_index): FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friend_chunks[sublist_index]) for sublist_index in range(len(friend_chunks))}
+	friendships_multiquery = {'friendships_' + str(sublist_index): FRIENDSHIPS_BETWEEN_FRIENDS_AND_PEOPLE_QUERY(friend_chunks[sublist_index]) for sublist_index in range(len(friend_chunks))}
 	friendships_multiquery_results = facebook_graph.fql(friendships_multiquery)
 	friendships_between_friends = parse_and_combine_multiquery_results(friendships_multiquery_results)
 	end = time.time()
-	print_execution_time('getting friendships between friends', start, end)
+	print_execution_time('getting local friendships', start, end)
 
 	# Construct graph of local region
 	start = time.time()
@@ -59,7 +59,7 @@ def index(request):
 	[friends_graph.add_edge(user['uid'], friend['uid']) for friend in friends]
 	[friends_graph.add_edge(friendship['uid1'], friendship['uid2']) for friendship in friendships_between_friends]
 	end = time.time()
-	print_execution_time('constructing graph of local region', start, end)
+	print_execution_time('building local graph', start, end)
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'number_of_friendships': len(friends_graph.edges())})
