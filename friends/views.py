@@ -37,7 +37,7 @@ def index(request):
 	start = time.time()
 	mutual_friend_counts_results = facebook_graph.fql(MUTUAL_FRIEND_COUNTS_QUERY)['data']
 	mutual_friend_counts = [result['mutual_friend_count'] for result in mutual_friend_counts_results]
-	friendships_count = reduce(lambda accumulated_count, current_count: accumulated_count + current_count, mutual_friend_counts) / 2
+	friendships_count = sum(mutual_friend_counts) / 2
 	print(str(friendships_count) + ' friendships in local graph')
 	print('Graph density is ' + str(float(friendships_count) / float( len(friends) * (len(friends) - 1) / 2 )))
 	end = time.time()
