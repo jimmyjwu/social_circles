@@ -15,8 +15,7 @@ def parse_multiquery_results(multiquery_results):
 
 def parse_and_combine_multiquery_results(multiquery_results):
 	"""
-	Given the results of an FQL multiquery, returns a combined list of all results
-	across all queries.
+	Returns a combined list of all results across all queries of an FQL multiquery.
 	"""
 	return combine_sublists(parse_multiquery_results(multiquery_results).values())
 
@@ -41,14 +40,14 @@ def edge_count_in_complete_graph(node_count):
 
 def print_graph_density(node_count, edge_count):
 	"""
-	Outputs the density of a graph with the given node and edge counts.
+	Outputs the density of a graph with given node and edge counts.
 	"""
 	print('[GRAPH DENSITY] ' + str(edge_count) + ' out of ' + str(edge_count_in_complete_graph(node_count)) + ' edges exist (' + str('%.1f' % (100 * float(edge_count) / edge_count_in_complete_graph(node_count))) + '%)')
 
 def print_multiquery_results_information(parsed_multiquery_results):
 	"""
-	Outputs the names of queries and the sizes of their results from
-	a dictionary of FQL multiquery results parsed by parse_multiquery_results().
+	Given a dictionary of FQL multiquery results parsed by parse_multiquery_results(),
+	oututs each query's name and results count.
 	"""
 	print('[MULTIQUERY RESULTS]')
 	for query_name, result in parsed_multiquery_results.iteritems():
@@ -58,11 +57,11 @@ def print_friend_chunks_information(friend_chunks):
 	"""
 	Outputs the number and size of given chunks/sublists of friends.
 	"""
-	print('[FRIEND CHUNKS] ' + str(sum([len(chunk) for chunk in friend_chunks])) + ' friends split into ' + str(len(friend_chunks)) + ' chunks of size ' + str(len(friend_chunks[0])))
+	print('[FRIEND CHUNKS] ' + str(len(combine_sublists(friend_chunks))) + ' friends split into ' + str(len(friend_chunks)) + ' chunks of size ' + str(len(friend_chunks[0])))
 
 def print_execution_time(operation_name, start_time, end_time):
 	"""
-	Outputs the execution time (in seconds) of an operation to the console.
+	Outputs the time an operation took to perform.
 	"""
 	print('[EXECUTION TIME] ' + str('%.1f' % (end_time - start_time)) + ' seconds:\t' + operation_name)
 
@@ -74,7 +73,7 @@ def print_variable_type(variable_name, variable):
 
 def test_and_print_edge_uniqueness(graph):
 	"""
-	Given a graph, outputs the number of duplicate edges (u,v) and (u,v), if any.
+	Given a graph, outputs the number of duplicate edges (u,v) <-> (u,v).
 	"""
 	edge_set = set(graph.edges())
 	duplicate_edges = [(edge[0], edge[1]) for edge in graph.edges() if (edge[1], edge[0]) in edge_set]
