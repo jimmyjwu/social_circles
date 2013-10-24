@@ -22,14 +22,14 @@ def parse_and_combine_multiquery_results(multiquery_results):
 
 def shuffled_chunks(full_list, chunk_size):
 	"""
-	Given a list, returns sublists of specified size in a randomized order.
+	Given a list, returns random disjoint sublists (chunks), each of specified size.
 	"""
 	shuffle(full_list)
 	return [full_list[index:index + chunk_size] for index in xrange(0, len(full_list), chunk_size)]
 
 def combine_sublists(sublists):
 	"""
-	Given a list of sublists, returns a list containing the items in all sublists (i.e. flattens the list).
+	Given a list of sublists, returns a flattened list.
 	"""
 	return list(chain.from_iterable(sublists))
 
