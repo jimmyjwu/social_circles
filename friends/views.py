@@ -23,24 +23,20 @@ def index(request):
 	# Get user and friends
 	start = time.time()
 	user_and_friends_multiquery = {
-		'user': USER_ID_AND_NAME_QUERY,
-		'friends': FRIENDS_ID_AND_NAME_QUERY,
+		'user': USER_QUERY,
+		'friends': FRIENDS_QUERY,
 	}
 	user_and_friends_multiquery_results = facebook_graph.fql(user_and_friends_multiquery)
 	user_and_friends_results_dictionary = parse_multiquery_results(user_and_friends_multiquery_results)
 	user = [{'uid': unicode(user['uid']), 'name': user['name']} for user in user_and_friends_results_dictionary['user']][0]
-	friends = [{'uid': unicode(friend['uid']), 'name': friend['name']} for friend in user_and_friends_results_dictionary['friends']]
+	friends = [{'uid': unicode(friend['uid']), 'name': friend['name'], 'mutual_friend_count': friend['mutual_friend_count']} for friend in user_and_friends_results_dictionary['friends']]
 	end = time.time()
-	print_execution_time('getting user and friends', start, end)
+	print_execution_time('getting user, friends, and mutual friend counts', start, end)
 
-	# Use FQL to get mutual friend counts and calculate graph density
-	start = time.time()
-	mutual_friend_counts_results = facebook_graph.fql(MUTUAL_FRIEND_COUNTS_QUERY)['data']
-	mutual_friend_counts = [result['mutual_friend_count'] for result in mutual_friend_counts_results]
+	# Calculate graph density from mutual friend counts
+	mutual_friend_counts = [friend['mutual_friend_count'] for friend in friends]
 	friendships_count = sum(mutual_friend_counts) / 2
 	print_graph_density(len(friends), friendships_count)
-	end = time.time()
-	print_execution_time('calculating graph density', start, end)
 
 	# Use FQL multiquery to get friendships among friends
 	start = time.time()
