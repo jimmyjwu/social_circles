@@ -26,7 +26,7 @@ def print_friend_chunks_information(friend_chunks):
 	"""
 	Outputs the number and size of given chunks/sublists of friends.
 	"""
-	print('[FRIEND CHUNKS] ' + str(len(friend_chunks)) + ' chunks of size ' + str(len(friend_chunks[0])))
+	print('[FRIEND CHUNKS] ' + str(reduce(lambda accumulated_length, chunk_length: accumulated_length + chunk_length, [len(chunk) for chunk in friend_chunks])) + ' friends split into ' + str(len(friend_chunks)) + ' chunks of size ' + str(len(friend_chunks[0])))
 
 def print_execution_time(operation_name, start_time, end_time):
 	"""
