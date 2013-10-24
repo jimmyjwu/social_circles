@@ -1,6 +1,7 @@
 """
 utilities.py contains utility functions used throughout the 'friends' app.
 """
+from random import shuffle
 
 def parse_multiquery_results(multiquery_results):
 	"""
@@ -16,10 +17,11 @@ def parse_and_combine_multiquery_results(multiquery_results):
 	"""
 	return combine_sublists(parse_multiquery_results(multiquery_results).values())
 
-def chunks(full_list, chunk_size):
+def shuffled_chunks(full_list, chunk_size):
 	"""
-	Given a list, returns successive sublists of specified size.
+	Given a list, returns sublists of specified size in a randomized order.
 	"""
+	shuffle(full_list)
 	return [full_list[index:index + chunk_size] for index in xrange(0, len(full_list), chunk_size)]
 
 def combine_sublists(sublists):
