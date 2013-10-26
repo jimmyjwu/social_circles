@@ -11,6 +11,7 @@ import networkx.algorithms.approximation as approximation
 # Local modules
 from utilities import *
 from constants import *
+import community
 
 
 access_token = DEVELOPER_ACCESS_TOKEN
