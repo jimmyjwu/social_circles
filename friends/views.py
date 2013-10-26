@@ -54,10 +54,35 @@ def index(request):
 	# Build graph of local region
 	start = time.time()
 	friends_graph = networkx.Graph()
+	[friends_graph.add_node(friend['uid'], name=friend['name']) for friend in friends + [user]]
 	[friends_graph.add_edge(user['uid'], friend['uid']) for friend in friends]
 	[friends_graph.add_edge(friendship['uid1'], friendship['uid2']) for friendship in friendships]
 	end = time.time()
 	print_execution_time('building local graph', start, end)
+
+	# Find clusters of friends
+	start = time.time()
+
+	friends_partition = community.best_partition(friends_graph)
+
+	# Convert partition assignments into a list of clusters (lists) of people
+	friends_by_cluster = {}
+	for friend_ID, cluster_number in friends_partition.iteritems():
+		if cluster_number not in friends_by_cluster:
+			friends_by_cluster[cluster_number] = []
+		else:
+			friends_by_cluster[cluster_number] += [friend_ID]
+	clusters = friends_by_cluster.values()
+
+	named_clusters = []
+	for cluster in clusters:
+		friend_names = []
+		for friend_ID in cluster:
+			friend_names += [friends_graph.node[friend_ID]['name']]
+		named_clusters += [friend_names]
+
+	end = time.time()
+	print_execution_time('finding clusters', start, end)
 
 	view_end = time.time()
 	print_execution_time('rendering complete index view', view_start, view_end)
