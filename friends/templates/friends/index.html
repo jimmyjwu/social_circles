@@ -4,9 +4,6 @@
 
 {% for cluster in clusters %}
 	<p>
-		{% for friend_name in cluster %}
-			{{ friend_name }}, 
-		{% endfor %}
+		{{ cluster|join:', ' }}
 	</p>
-	<br>
 {% endfor %}
