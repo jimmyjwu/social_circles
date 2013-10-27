@@ -32,6 +32,12 @@ def combine_sublists(sublists):
 	"""
 	return list(chain.from_iterable(sublists))
 
+def graph_density(node_count, edge_count):
+	"""
+	Returns the density of a graph with given node and edge counts.
+	"""
+	return float(edge_count) / edge_count_in_complete_graph(node_count)
+
 def edge_count_in_complete_graph(node_count):
 	"""
 	Returns the number of edges in a complete graph on a given number of nodes.
@@ -42,7 +48,7 @@ def print_graph_density(node_count, edge_count):
 	"""
 	Outputs the density of a graph with given node and edge counts.
 	"""
-	print('\n[GRAPH DENSITY]\t\t' + str(edge_count) + ' of ' + str(edge_count_in_complete_graph(node_count)) + ' (' + str('%.1f' % (100 * float(edge_count) / edge_count_in_complete_graph(node_count))) + '%) possible edges')
+	print('\n[GRAPH DENSITY]\t\t' + str(edge_count) + ' of ' + str(edge_count_in_complete_graph(node_count)) + ' (' + str('%.1f' % (100 * graph_density(node_count, edge_count))) + '%) possible edges')
 
 def print_multiquery_results_information(parsed_multiquery_results):
 	"""
