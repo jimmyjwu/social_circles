@@ -88,7 +88,7 @@ def index(request):
 	print_execution_time('rendering complete index view', view_start, view_end)
 
 	# Render page with friend information
-	return render(request, 'friends/index.html', {'friends': friends, 'number_of_friendships': len(friends_graph.edges())})
+	return render(request, 'friends/index.html', {'friends': friends, 'clusters': named_clusters})
 
 
 

@@ -1,12 +1,12 @@
 <p>
-	There are {{ number_of_friendships }} friendships in the friendly region.
+	Clusters:
 </p>
 
-{% for friend in friends %}
+{% for cluster in clusters %}
 	<p>
-		{{ friend.name }}
-		<br>
-		{{ friend.uid }}
-		<br>
+		{% for friend_name in cluster %}
+			{{ friend_name }}, 
+		{% endfor %}
 	</p>
+	<br>
 {% endfor %}
