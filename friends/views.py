@@ -62,17 +62,15 @@ def index(request):
 	# Find clusters of friends
 	start = time.time()
 
+	# Assign each friend to a cluster in the partition
 	friends_partition = community.best_partition(friends_graph)
 
 	# Convert partition assignments into a list of clusters (lists) of people
-	friends_by_cluster = {}
-	for friend_ID, cluster_number in friends_partition.iteritems():
-		if cluster_number not in friends_by_cluster:
-			friends_by_cluster[cluster_number] = []
-		else:
-			friends_by_cluster[cluster_number] += [friend_ID]
+	friends_by_cluster = {cluster_number: [] for cluster_number in friends_partition.values()}
+	[friends_by_cluster[cluster_number].append(friend_ID) for friend_ID, cluster_number in friends_partition.iteritems()]
 	clusters = friends_by_cluster.values()
 
+	# Convert friends' IDs into names
 	named_clusters = [ [friends_graph.node[friend_ID]['name'] for friend_ID in cluster] for cluster in clusters ]
 
 	end = time.time()
