@@ -73,9 +73,7 @@ def index(request):
 			friends_by_cluster[cluster_number] += [friend_ID]
 	clusters = friends_by_cluster.values()
 
-	named_clusters = []
-	for cluster in clusters:
-		named_clusters += [ [friends_graph.node[friend_ID]['name'] for friend_ID in cluster] ]
+	named_clusters = [ [friends_graph.node[friend_ID]['name'] for friend_ID in cluster] for cluster in clusters ]
 
 	end = time.time()
 	print_execution_time('finding clusters', start, end)
