@@ -54,8 +54,7 @@ def index(request):
 	# Build graph of local region
 	start = time.time()
 	friends_graph = networkx.Graph()
-	[friends_graph.add_node(friend['uid'], name=friend['name']) for friend in friends + [user]]
-	[friends_graph.add_edge(user['uid'], friend['uid']) for friend in friends]
+	[friends_graph.add_node(friend['uid'], name=friend['name']) for friend in friends]
 	[friends_graph.add_edge(friendship['uid1'], friendship['uid2']) for friendship in friendships]
 	end = time.time()
 	print_execution_time('building local graph', start, end)
