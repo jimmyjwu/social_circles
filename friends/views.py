@@ -66,8 +66,8 @@ def index(request):
 	friends_partition = community.best_partition(friends_graph)
 
 	# Convert partition assignments into a list of clusters (lists) of people
-	friends_by_cluster = {}
-	[friends_by_cluster[cluster_number].append(friend_ID) if cluster_number in friends_by_cluster else friends_by_cluster.setdefault(cluster_number, []) for friend_ID, cluster_number in friends_partition.iteritems()]
+	friends_by_cluster = {}	
+	[friends_by_cluster.setdefault(cluster_number, []).append(friend_ID) for friend_ID, cluster_number in friends_partition.iteritems()]
 	clusters = friends_by_cluster.values()
 
 	# Convert friends' IDs into names
