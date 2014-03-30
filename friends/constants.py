@@ -5,7 +5,7 @@ from access_token import *
 
 # Constants
 MAXIMUM_RESULTS_PER_QUERY = 5000
-SAFE_RESULTS_PER_QUERY = 3000
+SAFE_RESULTS_PER_QUERY = 1000
 
 # FQL Queries
 USER_QUERY = 'SELECT uid, name FROM user WHERE uid=me()'
