@@ -7,10 +7,6 @@ import facepy
 import networkx
 import networkx.algorithms as algorithms
 import networkx.algorithms.approximation as approximation
-import json
-from networkx.readwrite import json_graph
-import numpy
-import matplotlib.pyplot as plt
 
 # Local modules
 from utilities import *
@@ -63,10 +59,6 @@ def index(request):
 	end = time.time()
 	print_execution_time('building local graph', start, end)
 
-	# TODO Test building graph
-	networkx.draw_networkx_edges(friends_graph, networkx.spring_layout(friends_graph))
-	plt.savefig("graph.png")
-
 	# Find clusters of friends
 	start = time.time()
 
@@ -86,10 +78,6 @@ def index(request):
 
 	view_end = time.time()
 	print_execution_time('rendering complete index view', view_start, view_end)
-
-	# JSON
-	d = json_graph.node_link_data(friends_graph)
-	json.dump(d, open('force.json', 'w'))
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'clusters': named_clusters})
