@@ -64,8 +64,8 @@ def index(request):
 	print_execution_time('building local graph', start, end)
 
 	# TODO Test building graph
-	networkx.draw_networkx_edges(friends_graph, networkx.spring_layout(friends_graph))
-	plt.savefig("graph.png")
+	# networkx.draw_networkx(friends_graph, networkx.spring_layout(friends_graph, dim=2))
+	# plt.savefig("graph.png")
 
 	# Find clusters of friends
 	start = time.time()
@@ -73,8 +73,21 @@ def index(request):
 	# Assign each friend to a cluster in the partition
 	friends_partition = community.best_partition(friends_graph)
 
+	# Drawing graph
+	size = float(len(set(friends_partition.values())))
+	pos = networkx.spring_layout(friends_graph)
+	count = 0.
+	for com in set(friends_partition.values()) :
+	    count = count + 1.
+	    list_nodes = [nodes for nodes in friends_partition.keys()
+	                                if friends_partition[nodes] == com]
+	    networkx.draw_networkx_nodes(friends_graph, pos, list_nodes, node_size = 20,
+	                            node_color = str(count / size))
+	networkx.draw_networkx_edges(friends_graph,pos, alpha=0.5)
+	plt.savefig("graph2.png")
+
 	# Convert partition assignments into a list of clusters (lists) of people
-	friends_by_cluster = {}	
+	friends_by_cluster = {}
 	[friends_by_cluster.setdefault(cluster_number, []).append(friend_ID) for friend_ID, cluster_number in friends_partition.iteritems()]
 	clusters = friends_by_cluster.values()
 
@@ -90,6 +103,7 @@ def index(request):
 	# JSON
 	d = json_graph.node_link_data(friends_graph)
 	json.dump(d, open('force.json', 'w'))
+	json.dump(named_clusters, open('namedClusters.json', 'w'))
 
 	# Render page with friend information
 	return render(request, 'friends/index.html', {'friends': friends, 'clusters': named_clusters})
